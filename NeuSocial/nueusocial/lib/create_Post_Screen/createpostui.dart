@@ -40,7 +40,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               Sender: widget.userModel.name , 
               msg: message , 
               msgid: uuid.v1() , 
-              time: DateTime.now() 
+              time: DateTime.now() , 
+              Senderid: widget.userModel.UserId
             );
 
             FirebaseFirestore.instance.collection("Communities").doc(widget.communityModel.ComId).collection("TextHistory").doc(newmsg.msgid).set(newmsg.tomap());

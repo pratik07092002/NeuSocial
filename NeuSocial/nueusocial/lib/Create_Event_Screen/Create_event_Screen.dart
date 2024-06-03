@@ -50,7 +50,8 @@ TextEditingController _eventdesccontroller = TextEditingController();
                 EndDate: _datetimeend , 
                 desc: Eventdesc , 
                 name: EventName  , 
-              EventId: uuid.v1()
+              EventId: uuid.v1() , 
+              Senderid: widget.usermod.UserId
               );
 
               FirebaseFirestore.instance.collection("Communities").doc(widget.communityModel.ComId).collection("EventHistory").doc(eventmod.EventId).set(eventmod.toMap());

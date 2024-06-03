@@ -51,6 +51,16 @@ class _CommunityRoomState extends State<CommunityRoom> {
         .map((streams) => streams.expand((stream) => stream).toList());
   }
 
+  Future<UserModel> _getUserModel(String userId) async {
+    var doc = await FirebaseFirestore.instance.collection('Users').doc(userId).get();
+    if (doc.exists) {
+      print("User data: ${doc.data()}");
+      return UserModel.fromMap(doc.data()!);
+    } else {
+      throw Exception("User not found");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,9 +71,8 @@ class _CommunityRoomState extends State<CommunityRoom> {
         ),
         iconTheme: IconThemeData(color: Colors.white),
         leading: CircleAvatar(
-  backgroundImage: 
-       NetworkImage(widget.communityModel.Profilepic ?? "" )
-),
+          backgroundImage: NetworkImage(widget.communityModel.Profilepic ?? ""),
+        ),
         backgroundColor: Colors.black,
         automaticallyImplyLeading: true,
       ),
@@ -100,69 +109,97 @@ class _CommunityRoomState extends State<CommunityRoom> {
                               var item = combinedData[index];
                               if (item['type'] == 'text') {
                                 messageMod msg = messageMod.fromMap(item['data']);
-                                return Card(
-                                  color: Color.fromARGB(255, 35, 35, 35),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      ListTile(
-                                        title: Text(msg.Sender.toString(),
-                                            style: TextStyle(color: Colors.white)),
-                                        leading: CircleAvatar(
-                        backgroundImage: widget.userModel.ProfilePicture != null
-                            ? NetworkImage(widget.userModel.ProfilePicture!)
-                            : AssetImage("assets/profile.jpg") as ImageProvider<Object>?,
-                        radius: ScreenQuery.screenHeight(context) * .04,
-                      ),
-                                      ),
-                                      Container(
-                                        child: Text(msg.msg.toString(),
-                                            style: TextStyle(color: Colors.white)),
-                                      ),
-                                      SizedBox(height: ScreenQuery.screenHeight(context) * 0.06),
-                                    ],
-                                  ),
+                                return FutureBuilder(
+                                  future: _getUserModel(msg.Senderid!.toString()),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.done) {
+                                      if (snapshot.hasData) {
+                                        UserModel sender = snapshot.data as UserModel;
+                                        return Card(
+                                          color: Color.fromARGB(255, 35, 35, 35),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              ListTile(
+                                                title: Text(sender.Username.toString(),
+                                                    style: TextStyle(color: Colors.white)),
+                                                leading: CircleAvatar(
+                                                  backgroundImage: sender.ProfilePicture != null
+                                                      ? NetworkImage(sender.ProfilePicture!)
+                                                      : AssetImage("assets/profile.jpg") as ImageProvider<Object>?,
+                                                  radius: ScreenQuery.screenHeight(context) * .04,
+                                                ),
+                                              ),
+                                              Container(
+                                                child: Text(msg.msg.toString(),
+                                                    style: TextStyle(color: Colors.white)),
+                                              ),
+                                              SizedBox(height: ScreenQuery.screenHeight(context) * 0.06),
+                                            ],
+                                          ),
+                                        );
+                                      } else {
+                                        return Center(child: Text("Error loading sender details"));
+                                      }
+                                    } else {
+                                      return Center(child: CircularProgressIndicator());
+                                    }
+                                  },
                                 );
                               } else if (item['type'] == 'event') {
                                 EventModel event = EventModel.fromMap(item['data']);
-                                return Card(
-                                  color: Color.fromARGB(255, 35, 35, 35),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      ListTile(
-                                        title: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.purple,
-                                              border: Border.all(color: Colors.white),
-                                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                                            ),
-                                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                            child: Text(
-                                              "Event",
-                                              style: TextStyle(color: Colors.white, fontSize: 24),
-                                            ),
+                                return FutureBuilder(
+                                  future: _getUserModel(event.Senderid.toString()),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.done) {
+                                      if (snapshot.hasData) {
+                                        UserModel creator = snapshot.data as UserModel;
+                                        return Card(
+                                          color: Color.fromARGB(255, 35, 35, 35),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              ListTile(
+                                                title: Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.purple,
+                                                      border: Border.all(color: Colors.white),
+                                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                    ),
+                                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                    child: Text(
+                                                      "Event",
+                                                      style: TextStyle(color: Colors.white, fontSize: 24),
+                                                    ),
+                                                  ),
+                                                ),
+                                                leading: CircleAvatar(
+                                                  backgroundImage: creator.ProfilePicture != null
+                                                      ? NetworkImage(creator.ProfilePicture!)
+                                                      : AssetImage("assets/profile.jpg") as ImageProvider<Object>?,
+                                                  radius: ScreenQuery.screenHeight(context) * .04,
+                                                ),
+                                              ),
+                                              Container(
+                                                child: Text(event.desc.toString(),
+                                                    style: TextStyle(color: Colors.white)),
+                                              ),
+                                              Text(
+                                                  "${event.StartDate!.day}/${event.StartDate!.month}/${event.StartDate!.year} - ${event.EndDate!.day}/${event.EndDate!.month}/${event.EndDate!.year}",
+                                                  style: TextStyle(color: Colors.white)),
+                                              SizedBox(height: ScreenQuery.screenHeight(context) * 0.06),
+                                            ],
                                           ),
-                                        ),
-                                        leading:  CircleAvatar(
-                        backgroundImage: widget.userModel.ProfilePicture != null
-                            ? NetworkImage(widget.userModel.ProfilePicture!)
-                            : AssetImage("assets/profile.jpg") as ImageProvider<Object>?,
-                        radius: ScreenQuery.screenHeight(context) * .04,
-                      ),
-                                      ),
-                                      Container(
-                                        child: Text(event.desc.toString(),
-                                            style: TextStyle(color: Colors.white)),
-                                      ),
-                                      Text(
-                                          "${event.StartDate!.day}/${event.StartDate!.month}/${event.StartDate!.year} - ${event.EndDate!.day}/${event.EndDate!.month}/${event.EndDate!.year}",
-                                          style: TextStyle(color: Colors.white)),
-                                      SizedBox(height: ScreenQuery.screenHeight(context) * 0.06),
-                                    ],
-                                  ),
+                                        );
+                                      } else {
+                                        return Center(child: Text("Error loading event creator details"));
+                                      }
+                                    } else {
+                                      return Center(child: CircularProgressIndicator());
+                                    }
+                                  },
                                 );
                               }
                               return Container();

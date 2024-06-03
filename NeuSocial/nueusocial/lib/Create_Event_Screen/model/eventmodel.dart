@@ -6,8 +6,9 @@ class EventModel{
   DateTime? EndDate;
   String? name;
   String? desc;
+  String? Senderid;
 
-  EventModel({this.CreatedOn , this.StartDate , this.EndDate , this.desc , this.name , this.EventId});
+  EventModel({this.CreatedOn , this.StartDate , this.EndDate , this.desc , this.name , this.EventId , this.Senderid});
 
   EventModel.fromMap(Map<String , dynamic> map){
     EventId = map["EventId"];
@@ -16,6 +17,7 @@ class EventModel{
     EndDate = map["EndDate"].toDate();
     name = map["name"];
     desc = map["desc"];
+    Senderid = map["Senderid"];
 
   }
 
@@ -26,7 +28,8 @@ class EventModel{
       "StartDate" : this.StartDate , 
       "EndDate" : this.EndDate , 
       "name" : this.name , 
-      "desc" : this.desc 
+      "desc" : this.desc  , 
+      "Senderid" : this.Senderid
     };
   }
 }

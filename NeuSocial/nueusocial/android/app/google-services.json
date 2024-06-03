@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "863996752325",
+    "project_id": "neusocial-81448",
+    "storage_bucket": "neusocial-81448.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:863996752325:android:5bc4223d56a773f1d41bac",
+        "android_client_info": {
+          "package_name": "com.example.nueusocial"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw58BB5tvxkHB8bKipBm40WZAs64eUxQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

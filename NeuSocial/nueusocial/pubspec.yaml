@@ -1,0 +1,45 @@
+name: nueusocial
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.4 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  firebase: ^9.0.3
+  firebase_auth: ^4.19.6
+  firebase_core: ^2.31.1
+  bloc: ^8.1.4
+  flutter_bloc: ^8.1.5
+  equatable: ^2.0.5
+  firebase_storage: ^11.7.6
+  cloud_firestore: ^4.17.4
+  uuid: ^4.4.0
+  rxdart: ^0.27.7
+  image_picker: 
+  image_cropper: 
+  shared_preferences: ^2.2.3
+  flutter_launcher_icons: ^0.13.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true 
+  image_path: "assets/LOGO.jpeg"
+  icon_size: 280
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets\profile.jpg
+    - assets\Homebackground1.jpg
+    - assets\LOGO.jpeg
+    - assets\ComLogo.webp
+    - assets\profilecom.jpg

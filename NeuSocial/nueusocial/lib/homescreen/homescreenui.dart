@@ -35,7 +35,6 @@ class CommunityList extends StatelessWidget {
                   child: Text('No communities Joined.' , style: TextStyle(color: Colors.white),),
                 );
               } else {
-                // Display communities
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
@@ -48,7 +47,7 @@ class CommunityList extends StatelessWidget {
   subtitle: Text(community.Type.toString()),
   leading: CircleAvatar(
   backgroundImage: 
-       NetworkImage(community.Profilepic ?? "" )
+       getImageProvider(community.Profilepic)
 ),
 
   onTap: () => Navigator.push(
@@ -72,5 +71,12 @@ class CommunityList extends StatelessWidget {
       ),
       
     );
+  }
+  ImageProvider getImageProvider(String? imageUrl) {
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      return NetworkImage(imageUrl);
+    } else {
+      return AssetImage("assets/profilecom.jpg");
+    }
   }
 }

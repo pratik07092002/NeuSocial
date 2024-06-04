@@ -10,6 +10,7 @@ import 'package:nueusocial/CreateCommunityScreen/model/CommunityModel.dart';
 import 'package:nueusocial/createaccount/model/usermodel.dart';
 import 'package:nueusocial/utils/CardWidgetDisplay.dart';
 import 'package:nueusocial/utils/ScreenQuery.dart';
+import 'package:nueusocial/utils/ismember.dart';
 import 'package:nueusocial/utils/joinCommunity.dart';
 
 class CommunityDisplay extends StatefulWidget {
@@ -36,7 +37,7 @@ class _CommunityDisplayState extends State<CommunityDisplay> {
     super.initState();
     _communityDisplayBloc = CommunityDisplayBloc()
       ..add(CheckUserInMembersEvent(
-        userid: widget.usermod.UserId.toString(),
+        userid: widget.userCredential.uid,
         comid: widget.communityModel.ComId.toString(),
       ));
   }
@@ -165,43 +166,43 @@ class _CommunityDisplayState extends State<CommunityDisplay> {
                   builder: (context, state) {
                     if (state is CommunityMemberState) {
                       return ElevatedButton(
-                        onPressed: () {
-                           JoinCommunityy joincom = JoinCommunityy();
-                            joincom.SendRequest(widget.usermod, widget.userCredential, widget.communityModel);
-                          DocumentReference communityRef = FirebaseFirestore.instance.collection("Communities").doc(widget.communityModel.ComId);
+  onPressed: () async {
+    DocumentReference communityRef = FirebaseFirestore.instance.collection("Communities").doc(widget.communityModel.ComId);
 
-                          FirebaseFirestore.instance.runTransaction((transaction) async {
-                            DocumentSnapshot communityDoc = await transaction.get(communityRef);
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot communityDoc = await transaction.get(communityRef);
 
-                            Map<String, dynamic> members = Map<String, dynamic>.from(communityDoc['Members']);
+      if (communityDoc.exists) {
+        Map<String, dynamic> members = Map<String, dynamic>.from(communityDoc['Members']);
 
-                            if (!members.containsKey(widget.usermod.UserId)) {
-                              members[widget.usermod.UserId.toString()] = true;
+        if (!members.containsKey(widget.usermod.UserId)) {
+          members[widget.usermod.UserId.toString()] = true;
+          transaction.update(communityRef, {'Members.${widget.usermod.UserId}': true});
+        }
+      }
+    }).then((value) =>  Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CommunityRoom(
+          communityModel: widget.communityModel,
+          firebaseuser: widget.userCredential,
+          userModel: widget.usermod,
+        ),
+      ),
+    ));
 
-                              transaction.update(communityRef, {'Members.${widget.usermod.UserId}': true});
-                            }
-                          });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CommunityRoom(
-                                communityModel: widget.communityModel,
-                                firebaseuser: widget.userCredential,
-                                userModel: widget.usermod,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Text("Open"),
-                      );
+    
+  },
+  child: Text("Open"),
+);
+
                     } else if (state is CommunityNotMemberState) {
                       return ElevatedButton(
-                        onPressed: () {
-                          if (widget.communityModel.ComStatus.toString() == "Private") {
-                          JoinCommunityy joincom = JoinCommunityy();
-                            joincom.SendRequest(widget.usermod, widget.userCredential, widget.communityModel);
-                          } else {
-                            Navigator.push(
+                        onPressed: () async {
+                          if (widget.communityModel.ComStatus.toString() == "Private")  {
+                            bool isUsermem = await isUserMember(widget.usermod.toString(), widget.communityModel.ComId.toString());
+                            if(isUsermem == true){
+ Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => CommunityRoom(
@@ -211,6 +212,11 @@ class _CommunityDisplayState extends State<CommunityDisplay> {
                                 ),
                               ),
                             );
+                            }
+                          } else {
+                             JoinCommunityy joincom = JoinCommunityy();
+                            joincom.SendRequest(widget.usermod, widget.userCredential, widget.communityModel);
+                           
                           }
                         },
                         child: Text("Join"),

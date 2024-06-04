@@ -5,22 +5,16 @@ import 'community_display_state.dart';
 
 class CommunityDisplayBloc extends Bloc<CommunityDisplayEvent, CommunityDisplayState> {
   CommunityDisplayBloc() : super(CommunityInitialState()) {
-    on<CheckUserInMembersEvent>(_updatebtn);
+    on<CheckUserInMembersEvent>(_updateBtn);
   }
 
-  Future<void> _updatebtn(CheckUserInMembersEvent event, Emitter<CommunityDisplayState> emit) async {
-   
-    bool isMember = await isUserMember(event.userid , event.comid);
-print("is member" + isMember.toString());
+  Future<void> _updateBtn(CheckUserInMembersEvent event, Emitter<CommunityDisplayState> emit) async {
+    bool isMember = await isUserMember(event.userid, event.comid);
+    print("is member: " + isMember.toString());
     if (isMember) {
-      
       emit(CommunityMemberState());
-
-
     } else {
       emit(CommunityNotMemberState());
-
-
     }
   }
 }

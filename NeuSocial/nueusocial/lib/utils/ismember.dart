@@ -2,15 +2,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<bool> isUserMember(String userId, String communityId) async {
   try {
-    QuerySnapshot communityDoc = await FirebaseFirestore.instance
+    DocumentSnapshot communityDoc = await FirebaseFirestore.instance
         .collection("Communities")
-        .where("Members.${userId}" , isEqualTo: true).get();
-
-      if(communityDoc.docs.isNotEmpty){
+        .doc(communityId)
+        .get();
+        
+    if (communityDoc.exists) {
+      Map<String, dynamic> data = communityDoc.data() as Map<String, dynamic>;
+      if (data.containsKey('Members') && data['Members'].containsKey(userId)) {
+        print("Member true");
         return true;
-      }else{
+      } else {
+        print("Member false");
         return false;
       }
+    } else {
+      print("Community document does not exist");
+      return false;
+    }
   } catch (e) {
     print("Error: $e");
     return false; // Handle error gracefully

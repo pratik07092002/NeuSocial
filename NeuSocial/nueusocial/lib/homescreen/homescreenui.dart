@@ -4,6 +4,7 @@ import 'package:nueusocial/CommunityDisplay/Community_Profile_Screen.dart';
 import 'package:nueusocial/CreateCommunityScreen/model/CommunityModel.dart';
 import 'package:nueusocial/createaccount/model/usermodel.dart';
 import 'package:nueusocial/homescreen/model/fetchcom.dart';
+import 'package:nueusocial/utils/imagegetter.dart';
 
 class CommunityList extends StatelessWidget {
   final User userCredential;
@@ -47,7 +48,7 @@ class CommunityList extends StatelessWidget {
   subtitle: Text(community.Type.toString()),
   leading: CircleAvatar(
   backgroundImage: 
-       getImageProvider(community.Profilepic)
+       ImageProviderUtil.getImageProvider(community.Profilepic, "assets/profilecom.jpg")
 ),
 
   onTap: () => Navigator.push(
@@ -71,12 +72,5 @@ class CommunityList extends StatelessWidget {
       ),
       
     );
-  }
-  ImageProvider getImageProvider(String? imageUrl) {
-    if (imageUrl != null && imageUrl.isNotEmpty) {
-      return NetworkImage(imageUrl);
-    } else {
-      return AssetImage("assets/profilecom.jpg");
-    }
   }
 }

@@ -4,7 +4,7 @@ class CustomTextForm extends StatelessWidget {
   final String hinttext;
   final Icon prefixicon;
   final bool obscure;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final int? maxlines;
   final int? maxkength;
   final Function(String)? onChanged;

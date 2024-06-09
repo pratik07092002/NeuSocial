@@ -83,8 +83,8 @@ class _SearchCommunityBodyState extends State<SearchCommunityBody> {
                               subtitle: Text(item.Type.toString() , style: TextStyle(color: Colors.white),),
                               trailing: Text(item.ComStatus.toString() , style: TextStyle(color: Colors.white),),
                               leading: CircleAvatar(
-  backgroundImage: getImageProvider(item.Profilepic)
-       
+  backgroundImage: 
+       NetworkImage(item.Profilepic ?? "" )
 ),
                               onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityDisplay(userCredential: widget.firebaseuser , usermod: widget.usermod, communityModel: item ),)),
                             );
@@ -99,13 +99,6 @@ class _SearchCommunityBodyState extends State<SearchCommunityBody> {
         }
       },
     );
-  }
-   ImageProvider getImageProvider(String? imageUrl) {
-    if (imageUrl != null && imageUrl.isNotEmpty) {
-      return NetworkImage(imageUrl);
-    } else {
-      return AssetImage("assets/profilecom.jpg");
-    }
   }
 }
 

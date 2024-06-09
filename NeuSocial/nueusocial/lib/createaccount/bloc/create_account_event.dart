@@ -20,3 +20,8 @@ final String Username;
   List<Object> get props => [fname,lname , Phonenum , email , Cpassword , Password , Username];
   
   }
+
+  class SignupInitialEvent extends CreateAccountEvent {
+  @override
+  List<Object?> get props => [];
+}

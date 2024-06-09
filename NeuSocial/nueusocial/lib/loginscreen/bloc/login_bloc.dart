@@ -37,5 +37,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void _Switch(CreateAccountClickEvent event , Emitter<LoginState> emit) {
 emit(CreateAccountPageShowState());
+emit(LoginState());
   }
 }

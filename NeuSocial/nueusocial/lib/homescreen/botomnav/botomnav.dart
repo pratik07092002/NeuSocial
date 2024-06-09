@@ -19,7 +19,6 @@ import 'package:nueusocial/Notification_Screen/NotificationScreen.dart';
 import 'package:nueusocial/sharedpref%20screen.dart';
 import 'package:nueusocial/utils/ScreenQuery.dart';
 
-BottomNavBloc bottomNavBloc = BottomNavBloc();
 
 class BotoomNav extends StatelessWidget {
   final User userCredential;
@@ -30,7 +29,7 @@ class BotoomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => bottomNavBloc,
+      create: (context) => BottomNavBloc(),
       child: BotoomNavView(userCredential: userCredential, userMod: userMod),
     );
   }
@@ -138,6 +137,7 @@ class _BotoomNavViewState extends State<BotoomNavView> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<BottomNavBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -180,9 +180,7 @@ class _BotoomNavViewState extends State<BotoomNavView> {
             selectedFontSize: 15,
             currentIndex: currentIndex,
             onTap: (index) {
-              if (!bottomNavBloc.isClosed) {
-                bottomNavBloc.add(PageTappedEvent(index));
-              }
+                bloc.add(PageTappedEvent(index));
             },
             items: [
               BottomNavigationBarItem(icon: Icon(Icons.list), label: "Communities"),

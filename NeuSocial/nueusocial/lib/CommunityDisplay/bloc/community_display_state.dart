@@ -10,3 +10,7 @@ class CommunityInitialState extends CommunityDisplayState {}
 class CommunityMemberState extends CommunityDisplayState {}
 
 class CommunityNotMemberState extends CommunityDisplayState {}
+
+class ComunityPageOpenState extends CommunityDisplayState{}
+class ComunityPageOpenErrorState extends CommunityDisplayState{}
+class ComunityJoinRequestSentState extends CommunityDisplayState{}

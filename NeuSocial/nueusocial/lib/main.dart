@@ -38,8 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false, 
       debugShowMaterialGrid: false,
-      
-      home: LoginScreen()
+      home: LoginScreen(),
     );
   }
 }
@@ -55,7 +54,8 @@ final UserModel userModel;
       theme: ThemeData(brightness: Brightness.dark , primarySwatch: Colors.purple),
       debugShowCheckedModeBanner: false, 
       debugShowMaterialGrid: false,
-      home: BotoomNav( userCredential: firebaseuser , userMod: userModel)
+      home: BotoomNav( userCredential: firebaseuser , userMod: userModel) , 
+     
     );
   }
 }

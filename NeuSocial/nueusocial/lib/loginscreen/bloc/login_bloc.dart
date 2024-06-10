@@ -18,12 +18,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       if(event.email.isEmpty || event.password.isEmpty){
         emit(LoginErrorState(error: "Please Enter Valid Credentials"));
+        print("Empty Cred");
       }
       else{
+        print("Email ${event.email}");
+        print("Password ${event.password}");
+        
         UserCredential usercred = await FirebaseAuth.instance.signInWithEmailAndPassword(email: event.email, password: event.password);
-        String Userid = usercred.user!.uid;
+        print("Password ${event.password}");
+        String userid = usercred.user!.uid;
 
-       DocumentSnapshot docsnap = await FirebaseFirestore.instance.collection("Users").doc(Userid).get();
+       DocumentSnapshot docsnap = await FirebaseFirestore.instance.collection("Users").doc(userid).get();
        UserModel fetchmod = UserModel.fromMap(docsnap.data() as Map<String , dynamic>);
 
        emit(LoginSuccessState(userCredential: usercred.user!, usermod: fetchmod));

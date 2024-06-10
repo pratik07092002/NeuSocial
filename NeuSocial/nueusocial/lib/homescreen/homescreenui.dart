@@ -24,8 +24,12 @@ class CommunityList extends StatelessWidget {
             future: fetchCommunitiesForMember(userCredential.uid),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Container(
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/Homebackground1.jpg'), fit: BoxFit.cover )),
+
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               } else if (snapshot.hasError) {
                 return Center(

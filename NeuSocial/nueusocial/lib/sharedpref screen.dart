@@ -32,7 +32,9 @@ class _SelectedCommunitiesScreenState extends State<SelectedCommunitiesScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text('Selected Communities'),
+          backgroundColor: Colors.black,
+          title: Text('Selected Communities' , style: TextStyle(color: Colors.white),),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         body: FutureBuilder<Set<String>>(
           future: _getSelectedCommunities(),
@@ -50,9 +52,9 @@ class _SelectedCommunitiesScreenState extends State<SelectedCommunitiesScreen> {
                 itemBuilder: (context, index) {
                   final community = selectedCommunities.elementAt(index);
                   return ListTile(
-                    title: Text(community),
+                    title: Text(community , style: TextStyle(color: Colors.white),),
                     trailing: IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: Icon(Icons.delete , color: Colors.white,),
                       onPressed: () {
                         _deleteCommunity(community);
                       },

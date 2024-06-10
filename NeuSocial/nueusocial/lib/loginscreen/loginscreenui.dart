@@ -19,15 +19,20 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class LoginScreenView extends StatelessWidget {
+class LoginScreenView extends StatefulWidget {
   LoginScreenView({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreenView> createState() => _LoginScreenViewState();
+}
+
+class _LoginScreenViewState extends State<LoginScreenView> {
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<LoginBloc>(context);
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -89,7 +94,7 @@ class LoginScreenView extends StatelessWidget {
                     },
                     child: ElevatedButton(
                       onPressed: () {
-                        bloc.add(
+                        context.read<LoginBloc>().add(
                           LoginClickEvent(
                             email: _emailController.text,
                             password: _passwordController.text,
@@ -111,7 +116,7 @@ if(state is CreateAccountPageShowState){
                     },
                     child: ElevatedButton(
                       onPressed: () {
-                        bloc.add(
+                        context.read<LoginBloc>().add(
                           CreateAccountClickEvent(),
                         );
                       },

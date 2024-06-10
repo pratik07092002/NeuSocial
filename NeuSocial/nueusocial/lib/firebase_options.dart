@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'neusocial-81448.appspot.com',
     measurementId: 'G-FMLYQ0MC2F',
   );
+
 }

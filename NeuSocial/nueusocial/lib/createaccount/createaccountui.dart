@@ -19,13 +19,23 @@ class SignUpPage extends StatelessWidget {
   }
 }
 
-class SignUpPageView  extends StatelessWidget {
+class SignUpPageView  extends StatefulWidget {
   SignUpPageView({Key? key}) : super(key: key);
 
-   
+  @override
+  State<SignUpPageView> createState() => _SignUpPageViewState();
+}
+
+class _SignUpPageViewState extends State<SignUpPageView> {
+  TextEditingController fnamecontroller = TextEditingController();
+  TextEditingController lnamecontroller = TextEditingController();
+  TextEditingController phcontroller = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController cpassword = TextEditingController();
+  TextEditingController usernamecontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<CreateAccountBloc>(context);
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -61,108 +71,57 @@ class SignUpPageView  extends StatelessWidget {
                   Row(
                     children: [
                       Flexible(
-                        child: BlocSelector<CreateAccountBloc,
-                            CreateAccountState, TextEditingController?>(
-                          selector: (state) => state.fnamecontroller,
-                          builder: (context, fnamecontroller) {
-                            return CustomTextForm(
-                              hinttext: "First name",
-                              prefixicon: Icon(Icons.people),
-                              obscure: false,
-                              controller: fnamecontroller,
-                            );
-                          },
+                        child: CustomTextForm(
+                          hinttext: "First name",
+                          prefixicon: Icon(Icons.people),
+                          obscure: false,
+                          controller: fnamecontroller,
                         ),
                       ),
                       SizedBox(width: ScreenQuery.screenWidth(context) * 0.01),
                       Flexible(
-                        child: BlocSelector<CreateAccountBloc,
-                            CreateAccountState, TextEditingController?>(
-                          selector: (state) => state.lnamecontroller,
-                          builder: (context, lnamecontroller) {
-                            return CustomTextForm(
-                              hinttext: "Last name",
-                              prefixicon: Icon(Icons.people),
-                              obscure: false,
-                              controller: lnamecontroller,
-                            );
-                          },
+                        child: CustomTextForm(
+                          hinttext: "Last name",
+                          prefixicon: Icon(Icons.people),
+                          obscure: false,
+                          controller: lnamecontroller,
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: ScreenQuery.screenHeight(context) * 0.01),
-                  BlocSelector<CreateAccountBloc, CreateAccountState,
-                      TextEditingController?>(
-                    selector: (state) {
-                      return state.phcontroller;
-                    },
-                    builder: (context, phcontroller) {
-                      return CustomTextForm(
-                        hinttext: "Enter Phone Number",
-                        prefixicon: Icon(Icons.phone),
-                        obscure: false,
-                        controller: phcontroller,
-                      );
-                    },
+                  CustomTextForm(
+                    hinttext: "Enter Phone Number",
+                    prefixicon: Icon(Icons.phone),
+                    obscure: false,
+                    controller: phcontroller,
                   ),
-                  BlocSelector<CreateAccountBloc, CreateAccountState,
-                      TextEditingController?>(
-                    selector: (state) {
-                      return state.usernamecontroller;
-                    },
-                    builder: (context, usernamecontroller) {
-                      return CustomTextForm(
-                        hinttext: "Enter Username",
-                        prefixicon: Icon(Icons.people),
-                        obscure: false,
-                        controller: usernamecontroller,
-                      );
-                    },
+                  CustomTextForm(
+                    hinttext: "Enter Username",
+                    prefixicon: Icon(Icons.people),
+                    obscure: false,
+                    controller: usernamecontroller,
                   ),
                   SizedBox(height: ScreenQuery.screenHeight(context) * 0.01),
-                  BlocSelector<CreateAccountBloc, CreateAccountState,
-                      TextEditingController?>(
-                    selector: (state) {
-                      return state.emailcontroller;
-                    },
-                    builder: (context, emailcontroller) {
-                      return CustomTextForm(
-                        hinttext: "Enter Email Address",
-                        prefixicon: Icon(Icons.email),
-                        obscure: false,
-                        controller: emailcontroller,
-                      );
-                    },
+                  CustomTextForm(
+                    hinttext: "Enter Email Address",
+                    prefixicon: Icon(Icons.email),
+                    obscure: false,
+                    controller: emailcontroller,
                   ),
                   SizedBox(height: ScreenQuery.screenHeight(context) * 0.01),
-                  BlocSelector<CreateAccountBloc, CreateAccountState,
-                      TextEditingController?>(
-                    selector: (state) {
-                      return state.password;
-                    },
-                    builder: (context, password) {
-                      return CustomTextForm(
-                        hinttext: "Enter Password",
-                        prefixicon: Icon(Icons.password),
-                        obscure: true,
-                        controller: password,
-                      );
-                    },
+                  CustomTextForm(
+                    hinttext: "Enter Password",
+                    prefixicon: Icon(Icons.password),
+                    obscure: true,
+                    controller: password,
                   ),
                   SizedBox(height: ScreenQuery.screenHeight(context) * 0.01),
-                  BlocSelector<CreateAccountBloc, CreateAccountState, TextEditingController?>(
-                    selector: (state) {
-                      return state.cpassword;
-                    },
-                    builder: (context, cpassword) {
-                      return CustomTextForm(
-                        hinttext: "Enter Password Again",
-                        prefixicon: Icon(Icons.password),
-                        obscure: true,
-                        controller: cpassword,
-                      );
-                    },
+                  CustomTextForm(
+                    hinttext: "Enter Password Again",
+                    prefixicon: Icon(Icons.password),
+                    obscure: true,
+                    controller: cpassword,
                   ),
                   SizedBox(height: ScreenQuery.screenHeight(context) * 0.02),
                   Container(
@@ -183,16 +142,23 @@ class SignUpPageView  extends StatelessWidget {
 
                       },
                       child: TextButton(
+                        
                         onPressed: () {
-                          bloc.add(SignupButtonClickEvent(
-                            Password: bloc.state.password!.text,
-                             fname: bloc.state.fnamecontroller!.text,
-                              lname: bloc.state.lnamecontroller!.text,
-                               Phonenum: bloc.state.phcontroller!.text,
-                                email: bloc.state.emailcontroller!.text,
-                                 Cpassword: bloc.state.cpassword!.text,
-                                  Username: bloc.state.usernamecontroller!.text));
-                        },
+
+ 
+
+    context.read<CreateAccountBloc>().add(SignupButtonClickEvent(
+      Password: password.text, 
+      fname: fnamecontroller.text,
+      lname: lnamecontroller.text,
+      Phonenum: phcontroller.text,
+      email: emailcontroller.text,
+      Cpassword: cpassword.text,
+      Username: usernamecontroller.text,
+    ));
+ 
+},
+
                         child: const Text(
                           "Sign Up",
                           style: TextStyle(color: Colors.white),

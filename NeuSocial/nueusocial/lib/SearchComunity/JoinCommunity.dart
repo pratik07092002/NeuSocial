@@ -5,6 +5,7 @@ import 'package:nueusocial/CommunityDisplay/Community_Profile_Screen.dart';
 import 'package:nueusocial/SearchComunity/bloc/search_com_bloc.dart';
 import 'package:nueusocial/createaccount/model/usermodel.dart';
 import 'package:nueusocial/enums/Statusscreen.dart';
+import 'package:nueusocial/utils/imagegetter.dart';
 import 'package:nueusocial/widgets/customtextform.dart';
 
 class SearchCommunity extends StatelessWidget {
@@ -84,7 +85,7 @@ class _SearchCommunityBodyState extends State<SearchCommunityBody> {
                               trailing: Text(item.ComStatus.toString() , style: TextStyle(color: Colors.white),),
                               leading: CircleAvatar(
   backgroundImage: 
-       NetworkImage(item.Profilepic ?? "" )
+      ImageProviderUtil.getImageProvider(item.Profilepic, "assets/profilecom.jpg")
 ),
                               onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context) => CommunityDisplay(userCredential: widget.firebaseuser , usermod: widget.usermod, communityModel: item ),)),
                             );

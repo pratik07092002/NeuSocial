@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 import 'package:nueusocial/createaccount/model/usermodel.dart';
 
@@ -50,14 +49,6 @@ else if(event.Password != event.Cpassword){
   }
 
   FutureOr<void> _initialistage(SignupInitialEvent event, Emitter<CreateAccountState> emit) {
-    emit(state.copyWith(
-      fnamecontroller: TextEditingController() , 
-      lnamecontroller: TextEditingController() , 
-      cpassword: TextEditingController() , 
-      emailcontroller: TextEditingController() , 
-      password: TextEditingController(), 
-      phcontroller: TextEditingController() , 
-      usernamecontroller: TextEditingController()
-      ));
+    emit(CreateAccountState());
   }
 }

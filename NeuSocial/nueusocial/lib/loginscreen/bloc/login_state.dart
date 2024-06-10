@@ -11,6 +11,7 @@ class LoginSuccessState extends LoginState {
   final UserModel usermod;
 
   LoginSuccessState({required this.userCredential, required this.usermod});
+  @override
   List<Object?> get props => [userCredential , usermod];
 
 }

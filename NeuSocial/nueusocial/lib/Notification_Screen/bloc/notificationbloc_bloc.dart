@@ -15,7 +15,7 @@ class NotificationblocBloc extends Bloc<NotificationblocEvent, NotificationblocS
 
   Future<void> _fetchNotifications(FetchNotificationsEvent event, Emitter<NotificationblocState> emit) async {
     try {
-      emit(NotificationLoading()); // Emit loading state
+      emit(NotificationLoading()); 
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection("JoinRequests")
           .where("AdminUserid", isEqualTo: event.adminUserId)
@@ -37,7 +37,6 @@ class NotificationblocBloc extends Bloc<NotificationblocEvent, NotificationblocS
       await FirebaseFirestore.instance.runTransaction((transaction) async {
         DocumentSnapshot communityDoc = await transaction.get(communityRef);
         Map<String, dynamic> members = Map<String, dynamic>.from(communityDoc['Members']);
-
         if (!members.containsKey(event.senderId)) {
           members[event.senderId] = true;
           transaction.update(communityRef, {'Members.${event.senderId}': true});

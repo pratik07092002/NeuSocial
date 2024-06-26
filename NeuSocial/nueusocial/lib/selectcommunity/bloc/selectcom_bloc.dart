@@ -26,6 +26,7 @@ class SelectcomBloc extends Bloc<SelectcomEvent, SelectcomState> {
 
       // Save selected state in shared preferences
       final prefs = await SharedPreferences.getInstance();
+      
       prefs.setBool(event.community, selectedCommunities.contains(event.community));
     });
   }

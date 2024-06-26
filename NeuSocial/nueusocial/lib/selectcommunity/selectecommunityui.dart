@@ -47,6 +47,7 @@ class SelectCommunityScreenView extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text('Select Community' , style: TextStyle(color: Colors.white),),
+          automaticallyImplyLeading: false,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
